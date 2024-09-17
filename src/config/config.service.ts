@@ -1,6 +1,7 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import * as dotenv from 'dotenv';
-import { User } from 'src/comman/entity/user.entity';
+
+import { User } from '../comman/entity/user.entity';
 
 dotenv.config();
 
@@ -41,6 +42,8 @@ export class ConfigService {
       migrations: ['dist/migrations/*{.ts,.js}'],
       migrationsTableName: 'migration',
       ssl: this.isProduction(),
+      autoLoadEntities: true,
+      synchronize: true,
     };
   }
 }

@@ -31,16 +31,13 @@ export abstract class BaseEntity {
   createDateTime: Date;
 
   @Column({ type: 'varchar', length: 300 })
+  @IsOptional()
   @Length(1, 300)
   createdBy: string;
 
   @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   @IsDate()
   lastChangedDateTime: Date;
-
-  @Column({ type: 'varchar', length: 300 })
-  @Length(1, 300)
-  lastChangedBy: string;
 
   @Column({ type: 'varchar', length: 300, nullable: true })
   @IsOptional()

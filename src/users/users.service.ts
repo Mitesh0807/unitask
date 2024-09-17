@@ -6,6 +6,7 @@ import * as bcrypt from 'bcryptjs';
 import { AuthDto } from 'src/auth/dto/auth.dto';
 import { JwtPayload } from 'src/auth/types/jwtPayload.type';
 import { Tokens } from 'src/auth/types/tokens.type';
+import { CreateUserDto } from 'src/comman/dto/create-user.dto';
 import { IsNull, Not, Repository } from 'typeorm';
 
 import { User } from '../comman/entity/user.entity';
@@ -19,13 +20,13 @@ export class UsersService {
     private readonly config: ConfigService,
   ) {}
 
-  async signupLocal(dto: AuthDto): Promise<Tokens> {
+  async signupLocal(dto: CreateUserDto): Promise<Tokens> {
     const hash = await bcrypt.hash(dto.password, 10);
 
     try {
       const user = await this.userRepository.save({
         email: dto.email,
-        hash,
+        password: hash,
       });
 
       const tokens = await this.getTokens(user.id, user.email);
