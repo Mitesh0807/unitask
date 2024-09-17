@@ -1,6 +1,6 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import * as dotenv from 'dotenv';
-import { join } from 'path';
+import { User } from 'src/comman/entity/user.entity';
 
 dotenv.config();
 
@@ -37,7 +37,7 @@ export class ConfigService {
       username: this.getValue('DB_USERNAME'),
       password: this.getValue('DB_PASSWORD'),
       database: this.getValue('DB_NAME'),
-      entities: ['dist/**/*.entity{.ts,.js}'],
+      entities: [User],
       migrations: ['dist/migrations/*{.ts,.js}'],
       migrationsTableName: 'migration',
       ssl: this.isProduction(),
@@ -51,7 +51,8 @@ const configService = new ConfigService(process.env).ensureValues([
   'DB_USERNAME',
   'DB_PASSWORD',
   'DB_NAME',
-  'JWT_SECRET',
+  'AT_SECRET',
+  'RT_SECRET',
 ]);
 
 export { configService };

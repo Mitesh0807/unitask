@@ -8,7 +8,7 @@ dotenvConfig({ path: '.env' });
 const config = {
   ...configService.getTypeOrmConfig(),
   autoLoadEntities: true,
-  synchronize: false,
+  synchronize: true,
 };
 
 export default registerAs('typeorm', () => config);
