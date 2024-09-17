@@ -1,5 +1,6 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import * as dotenv from 'dotenv';
+import { join } from 'path';
 
 dotenv.config();
 
@@ -11,8 +12,7 @@ export class ConfigService {
     if (!value && throwOnMissing) {
       throw new Error(`config error - missing env.${key}`);
     }
-
-    return value;
+    return value as string;
   }
 
   public ensureValues(keys: string[]) {
@@ -32,19 +32,14 @@ export class ConfigService {
   public getTypeOrmConfig(): TypeOrmModuleOptions {
     return {
       type: 'postgres',
-
       host: this.getValue('DB_HOST'),
       port: parseInt(this.getValue('DB_PORT')),
       username: this.getValue('DB_USERNAME'),
       password: this.getValue('DB_PASSWORD'),
       database: this.getValue('DB_NAME'),
-
-      entities: ['**/*.entity{.ts,.js}'],
-
+      entities: ['dist/**/*.entity{.ts,.js}'],
+      migrations: ['dist/migrations/*{.ts,.js}'],
       migrationsTableName: 'migration',
-
-      migrations: ['src/migration/*.ts'],
-
       ssl: this.isProduction(),
     };
   }
