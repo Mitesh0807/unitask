@@ -1,85 +1,101 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# NestJS Authentication API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+This project is a NestJS-based API that implements a robust authentication system using JWT (JSON Web Tokens). It includes features such as user registration, login, token refresh, and protected routes.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Features
 
-## Description
+- User registration and login
+- JWT-based authentication
+- Token refresh mechanism
+- Protected routes
+- PostgreSQL database integration
+- Docker support for easy deployment
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Prerequisites
 
-## Project setup
+- Node.js (v14 or later)
+- npm or yarn
+- Docker and Docker Compose (for containerized setup)
+- PostgreSQL (if running without Docker)
 
-```bash
-$ pnpm install
-```
+## Setup
 
-## Compile and run the project
+### Environment Variables
 
-```bash
-# development
-$ pnpm run start
+Create a `.env` file in the root directory with the following variables:
 
-# watch mode
-$ pnpm run start:dev
+PORT=8000
+NODE_ENV=development
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+DB_NAME=your_database_name
+AT_SECRET=your_access_token_secret
+RT_SECRET=your_refresh_token_secret
+Optional: Use this for a single database URL connection
+DB_URL=postgres://username:password@host:port/database
+This README provides a comprehensive overview of your project, including setup instructions for both local and Docker environments, a list of main features, API endpoints, and important development notes. You may want to customize it further based on any specific details or requirements of your project.
+add in README.md
 
-# production mode
-$ pnpm run start:prod
-```
+Certainly! I'll add the project-specific information to the README.md file. Here's an updated version that includes details about your authentication system and setup instructions:
+PORT=8000
+NODE_ENV=development
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+DB_NAME=your_database_name
+AT_SECRET=your_access_token_secret
+RT_SECRET=your_refresh_token_secret
+Optional: Use this for a single database URL connection
+DB_URL=postgres://username:password@host:port/database
+bash
+unit tests
+$ npm run test
+e2e tests
+$ npm run test:e2e
+test coverage
+$ npm run test:cov
+This README now includes:
+A brief description of your project and its features
+Prerequisites for running the project
+Setup instructions for both local and Docker environments
+A list of API endpoints
+Information about the authentication mechanism
+Development notes
+Testing instructions
+You can further customize this README to include any additional information specific to your project or development workflow.
+add readme file here which setup project required env and all guide also postman collection
 
-## Run tests
-
-```bash
-# unit tests
-$ pnpm run test
-
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
-```
-
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Certainly! I'll create a comprehensive README.md file that includes setup instructions, required environment variables, and a Postman collection for your NestJS Authentication API project. Here's the updated README.md:
+PORT=8000
+NODE_ENV=development
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+DB_NAME=your_database_name
+AT_SECRET=your_access_token_secret
+RT_SECRET=your_refresh_token_secret
+Optional: Use this for a single database URL connection
+DB_URL=postgres://username:password@host:port/database
+bash
+unit tests
+$ npm run test
+e2e tests
+$ npm run test:e2e
+test coverage
+$ npm run test:cov
+This README provides a comprehensive guide for setting up and using your NestJS Authentication API project. It includes:
+Project description and features
+Prerequisites
+Setup instructions (both local and Docker)
+Required environment variables
+API endpoints
+A Postman collection for easy testing
+Development notes
+Testing instructions
+Contribution guidelines
+License information
+You can further customize this README to include any additional information specific to your project or development workflow.

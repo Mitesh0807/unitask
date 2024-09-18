@@ -31,35 +31,34 @@ export class ConfigService {
   }
 
   public getTypeOrmConfig(): TypeOrmModuleOptions {
-    return {
-      type: 'postgres',
-      url: this.getValue('DB_URL'),
-      entities: [User],
-      migrations: ['dist/migrations/*{.ts,.js}'],
-      migrationsTableName: 'migration',
-      autoLoadEntities: true,
-      synchronize: true,
-    };
+    if (this.getValue('DB_URL', false)) {
+      return {
+        type: 'postgres',
+        url: this.getValue('DB_URL'),
+        entities: [User],
+        migrations: ['dist/migrations/*{.ts,.js}'],
+        migrationsTableName: 'migration',
+        autoLoadEntities: true,
+        synchronize: true,
+      };
+    } else {
+      return {
+        type: 'postgres',
+        host: this.getValue('DB_HOST'),
+        port: parseInt(this.getValue('DB_PORT')),
+        username: this.getValue('DB_USERNAME'),
+        password: this.getValue('DB_PASSWORD'),
+        database: this.getValue('DB_NAME'),
+        entities: [User],
+        migrations: ['dist/migrations/*{.ts,.js}'],
+        migrationsTableName: 'migration',
+        ssl: this.isProduction(),
+        autoLoadEntities: true,
+        synchronize: true,
+      };
+    }
   }
 }
-/*
- *this method is used for connectiong local instance or docker container with supplied envs */
-// public getTypeOrmConfig(): TypeOrmModuleOptions {
-//   return {
-//     type: 'postgres',
-//     host: this.getValue('DB_HOST'),
-//     port: parseInt(this.getValue('DB_PORT')),
-//     username: this.getValue('DB_USERNAME'),
-//     password: this.getValue('DB_PASSWORD'),
-//     database: this.getValue('DB_NAME'),
-//     entities: [User],
-//     migrations: ['dist/migrations/*{.ts,.js}'],
-//     migrationsTableName: 'migration',
-//     ssl: this.isProduction(),
-//     autoLoadEntities: true,
-//     synchronize: true,
-//   };
-// }
 
 const configService = new ConfigService(process.env).ensureValues([
   'DB_HOST',
@@ -69,7 +68,6 @@ const configService = new ConfigService(process.env).ensureValues([
   'DB_NAME',
   'AT_SECRET',
   'RT_SECRET',
-  'DB_URL',
 ]);
 
 export { configService };
