@@ -30,7 +30,7 @@ export abstract class BaseEntity {
   @IsDate()
   createDateTime: Date;
 
-  @Column({ type: 'varchar', length: 300 })
+  @Column({ type: 'varchar', length: 300, nullable: true })
   @IsOptional()
   @Length(1, 300)
   createdBy: string;
