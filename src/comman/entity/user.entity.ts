@@ -1,10 +1,13 @@
 import { IsEmail, IsString, MinLength } from 'class-validator';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 import { BaseEntity } from './base.entity';
 
 @Entity({ name: 'users' })
 export class User extends BaseEntity {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
   @Column({ unique: true })
   @IsEmail()
   email: string;
@@ -16,11 +19,11 @@ export class User extends BaseEntity {
 
   @Column({ nullable: true })
   @IsString()
-  refreshToken?: string;
+  refreshTokenHash?: string;
 
   @Column({ nullable: true })
   @IsString()
-  refreshTokenHash?: string;
+  refreshToken?: string;
 
   @Column({ type: 'timestamp', nullable: true })
   refreshTokenExpiresAt?: Date;

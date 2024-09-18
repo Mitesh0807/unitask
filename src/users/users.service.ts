@@ -1,4 +1,9 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -40,7 +45,13 @@ export class UsersService {
       throw error;
     }
   }
-
+  async getUserProfile(userId: string): Promise<User> {
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return user;
+  }
   async signinLocal(dto: AuthDto): Promise<Tokens> {
     const user = await this.userRepository.findOne({
       where: { email: dto.email },
@@ -48,10 +59,7 @@ export class UsersService {
 
     if (!user) throw new ForbiddenException('Access Denied');
 
-    const passwordMatches = await bcrypt.compare(
-      dto.password,
-      user.refreshTokenHash,
-    );
+    const passwordMatches = await bcrypt.compare(dto.password, user.password);
     if (!passwordMatches) throw new ForbiddenException('Access Denied');
 
     const tokens = await this.getTokens(user.id, user.email);
@@ -60,9 +68,25 @@ export class UsersService {
     return tokens;
   }
 
+  async verifyUser(email: string, password: string) {
+    const user = await this.userRepository.findOne({
+      where: { email: email },
+    });
+    if (!user) {
+      throw new UnprocessableEntityException('Invalid credentials');
+    }
+    const isPasswordMatch = await bcrypt.compare(password, user.password);
+    if (!isPasswordMatch) {
+      throw new UnprocessableEntityException('Invalid credentials');
+    }
+    delete user.password;
+    delete user.refreshToken;
+    return user;
+  }
+
   async logout(userId: string): Promise<boolean> {
     await this.userRepository.update(
-      { id: userId, refreshToken: Not(IsNull()) },
+      { id: userId, refreshTokenHash: Not(IsNull()) },
       { refreshTokenHash: null },
     );
     return true;
@@ -70,11 +94,11 @@ export class UsersService {
 
   async refreshTokens(userId: string, rt: string): Promise<Tokens> {
     const user = await this.userRepository.findOne({ where: { id: userId } });
-    if (!user || !user.refreshTokenHash)
-      throw new ForbiddenException('Access Denied');
-
-    const rtMatches = await bcrypt.compare(rt, user.refreshTokenHash);
-    if (!rtMatches) throw new ForbiddenException('Access Denied');
+    if (!user || !user.refreshTokenHash) {
+      throw new ForbiddenException(
+        'Access Denied: User not found or no refresh token',
+      );
+    }
 
     const tokens = await this.getTokens(user.id, user.email);
     await this.updateRtHash(user.id, tokens.refresh_token);
