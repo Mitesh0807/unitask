@@ -11,7 +11,7 @@ services:
       - NODE_ENV=${NODE_ENV:-development}
       - PORT=${PORT:-8000}
       - DB_HOST=${DB_HOST:-postgres}
-      - DB_PORT=${DB_PORT:-5432}
+      - DB_PORT=${DB_PORT:-5433}
       - DB_USERNAME=${DB_USERNAME:-postgres}
       - DB_PASSWORD=${DB_PASSWORD:-password}
       - DB_NAME=${DB_NAME:-nestjs_db}
@@ -24,9 +24,9 @@ services:
       - app-network
 
   postgres:
-    image: postgres:13
+    image: postgres:16
     ports:
-      - '${DB_PORT:-5432}:5432'
+      - '${DB_PORT:-5433}:5433'
     environment:
       - POSTGRES_USER=${DB_USERNAME:-postgres}
       - POSTGRES_PASSWORD=${DB_PASSWORD:-password}
