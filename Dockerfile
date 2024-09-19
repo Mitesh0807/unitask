@@ -2,12 +2,15 @@ FROM node:20
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+RUN  npm install -g pnpm
 
-RUN npm install
+COPY pnpm-lock.yaml ./
+COPY package.json ./
+RUN pnpm install
 
 COPY . .
+RUN pnpm run build
 
-RUN npm run build
 
-CMD ["npm", "run", "start:prod"]
+# Start the app with pnpm
+CMD [ "pnpm", "run", "start:prod"]
