@@ -68,8 +68,7 @@ Testing instructions
 You can further customize this README to include any additional information specific to your project or development workflow.
 add readme file here which setup project required env and all guide also postman collection
 
-Certainly! I'll create a comprehensive README.md file that includes setup instructions, required environment variables, and a Postman collection for your NestJS Authentication API project. Here's the updated README.md:
-PORT=8000
+```PORT=8000
 NODE_ENV=development
 DB_HOST=localhost
 DB_PORT=5432
@@ -80,6 +79,7 @@ AT_SECRET=your_access_token_secret
 RT_SECRET=your_refresh_token_secret
 Optional: Use this for a single database URL connection
 DB_URL=postgres://username:password@host:port/database
+```
 bash
 unit tests
 $ npm run test
